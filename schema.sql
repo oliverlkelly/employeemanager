@@ -20,7 +20,7 @@ CREATE TABLE roles (
 CREATE TABLE employees (
     id INT NOT NULL AUTO_INCREMENT,
     firstName VARCHAR(30) NOT NULL,
-    lasName VARCHAR(30) NOT NULL,
+    lastName VARCHAR(30) NOT NULL,
     deptId INT,
     roleId INT NOT NULL,
     reportTo INT,
