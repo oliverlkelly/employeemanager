@@ -1,0 +1,12 @@
+{
+    "name": "employeemanager",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "author": "Oliver Kelly",
+    "dependencies": {
+        "express": "^4.17.3",
+        "inquirer": "^8.2.0",
+        "mysql": "^2.18.1"
+    }
+}
