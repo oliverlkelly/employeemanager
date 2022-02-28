@@ -2,13 +2,13 @@ DROP DATABASE IF EXISTS employeetracker_db;
 CREATE DATABASE employeetracker_db;
 USE employeetracker_db;
 
-CREATE TABLE departments (
+CREATE TABLE departments(
     id INT NOT NULL AUTO_INCREMENT,
     department VARCHAR(30) NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE roles (
+CREATE TABLE roles(
     id INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(30) NOT NULL,
     salary INT,
@@ -17,7 +17,7 @@ CREATE TABLE roles (
     FOREIGN KEY (deptId) REFERENCES departments(id)
 );
 
-CREATE TABLE employees (
+CREATE TABLE employees(
     id INT NOT NULL AUTO_INCREMENT,
     firstName VARCHAR(30) NOT NULL,
     lastName VARCHAR(30) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE employees (
     reportTo INT,
     isReport BOOLEAN,
     PRIMARY KEY(id),
-    FOREIGN KEY(deptId) REFERENCES departments(id),
-    FOREIGN KEY(roleId REFERENCES departments(id),
+    FOREIGN KEY(deptId) REFERENCES roles(deptId),
+    FOREIGN KEY(roleId) REFERENCES roles(id),
     FOREIGN KEY(reportTo) REFERENCES employees(id)
 );
