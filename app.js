@@ -17,7 +17,7 @@ const menu = {
     name: 'choice'
 }
 
-async function init(){
+async function menuFunct(){
     const menuChoice = await inquirer.prompt(menu);
     switch(menuChoice){
         case 'View All Employees':
@@ -48,6 +48,10 @@ async function init(){
             done = true;
             break;
     }
+}
+
+function init(){
+    menuFunct();
 }
 
 init();
