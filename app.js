@@ -13,11 +13,12 @@ const menu = {
         'View All Departments',
         'Add New Department',
         'Finished'
-    ]
+    ],
+    name: 'choice'
 }
 
 function init(){
-    prompt(menu)
+    inquirer.prompt(menu);
 }
 
 init();
