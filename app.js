@@ -17,8 +17,37 @@ const menu = {
     name: 'choice'
 }
 
-function init(){
-    inquirer.prompt(menu);
+async function init(){
+    const menuChoice = await inquirer.prompt(menu);
+    switch(menuChoice){
+        case 'View All Employees':
+            
+            break;
+        case 'Add New Employee':
+            
+            break;
+        case 'Update Employee Role':
+            
+            break;
+        case 'Remove Employee':
+            
+            break;
+        case 'View All Roles':
+            
+            break;
+        case 'Add New Role':
+            
+            break;
+        case 'View All Departments':
+            
+            break;
+        case 'Add New Department':
+            
+            break;
+        case 'Finished':
+            done = true;
+            break;
+    }
 }
 
 init();
