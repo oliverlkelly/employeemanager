@@ -22,6 +22,10 @@ const queryDepart = 'SELECT * FROM departments';
 const queryRoles = 'SELECT * FROM roles';
 const queryEmploy = 'SELECT * FROM employees';
 
+const queryAddDepart = 'INSERT INTO departments SET ?;';
+const queryAddRole = 'INSERT INTO roles SET ?;';
+const queryAddEmploy = 'INSERT INTO employees SET ?;';
+
 
 
 async function menuFunct(){
