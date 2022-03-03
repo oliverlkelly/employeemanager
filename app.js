@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const connection = require('./util/connection');
 
 const menu = {
     type: 'list',
