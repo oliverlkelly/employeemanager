@@ -33,12 +33,16 @@ const queryUpdateRole = 'UPDATE roles SET ? WHERE ?;';
 const queryEmploysInfo = 'SELECT employees.id, employees.firstName, employees.lastName, roles.title, roles.salary, departments.department FROM employees LEFT JOIN roles ON employees.roleId = roles.id LEFT JOIN departments ON roles.deptId = departments.id;';
 const queryRolesInfo = 'SELECT roles.id, roles.title, roles.salary, departments.department FROM roles LEFT JOIN departments ON roles.deptId = departments.id;';
 
+const getRoles = connection.query(queryRoles, (err, res) => {
+    if(err) throw err;
+    console.table(res);
+});
 
 async function menuFunct(){
     inquirer.prompt(menu).then((menuChoice) => {
         switch(menuChoice.choice){
             case 'View All Employees':
-                const getEmploys = connection.query(queryEmploysInfo, (err, res) => {
+                const getEmploys = connection.query(queryEmploy, (err, res) => {
                     if (err) throw err;
                     console.table(res);
                 });
@@ -54,18 +58,49 @@ async function menuFunct(){
                 
                 break;
             case 'View All Roles':
-                const getRoles = connection.query(queryRolesInfo, (err, res) => {
+                getRoles();
+                menuFunct();
+                break;
+            case 'Add New Role':
+                const newRole = connection.query(queryDepart, (err, res) => {
+                    let departChoice = res.map(function (res) {
+                        return res['dept'];
+                    });
+                    prompt([
+                        { type: 'input', name: 'newRoleTitle', message: 'Name of New Role?' },
+                        { type: 'input', name: 'newRoleSalary', message: 'Salary of New Role?' },
+                        {
+                            type: 'list',
+                            name: 'newRoleDept',
+                            message: 'Which department is this New Role under?',
+                            choices: departChoice
+                        }
+                    ])
+                    .then((answers) => {
+                        connection.query(queryDepart, (err, res) => {
+                            if (err) throw err;
+                            const departments = res.find(departments => departments.deptartment === answers.newRoleDepart);
+                            connection.query(queryAddRole,
+                            {
+                                title: answers.newRoleTitle,
+                                salary: answers.newRoleSalary,
+                                deptId: departments.id
+                            }, (err, res) => {
+                                if (err) throw err;
+                                console.table(res);
+                                getRoles();
+                            });
+                        });
+                    });
+                });
+                menuFunct();               
+                break;
+            case 'View All Departments':
+                const getDeptarts = connection.query(queryDepart, (err, res) => {
                     if(err) throw err;
                     console.table(res);
                 });
                 menuFunct();
-                break;
-            case 'Add New Role':
-                
-                break;
-            case 'View All Departments':
-                
-                break;
             case 'Add New Department':
                 
                 break;
