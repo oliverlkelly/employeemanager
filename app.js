@@ -18,6 +18,12 @@ const menu = {
     name: 'choice'
 }
 
+const queryDepart = 'SELECT * FROM departments';
+const queryRoles = 'SELECT * FROM roles';
+const queryEmploy = 'SELECT * FROM employees';
+
+
+
 async function menuFunct(){
     const menuChoice = await inquirer.prompt(menu);
     switch(menuChoice){
