@@ -33,10 +33,12 @@ const queryUpdateRole = 'UPDATE roles SET ? WHERE ?;';
 const queryEmploysInfo = 'SELECT employees.id, employees.firstName, employees.lastName, roles.title, roles.salary, departments.department FROM employees LEFT JOIN roles ON employees.roleId = roles.id LEFT JOIN departments ON roles.deptId = departments.id;';
 const queryRolesInfo = 'SELECT roles.id, roles.title, roles.salary, departments.department FROM roles LEFT JOIN departments ON roles.deptId = departments.id;';
 
-const getRoles = connection.query(queryRoles, (err, res) => {
-    if(err) throw err;
-    console.table(res);
-});
+function getRoles(){
+    connection.query(queryRoles, (err, res) => {
+        if(err) throw err;
+        console.table(res);
+    });
+}
 
 async function menuFunct(){
     inquirer.prompt(menu).then((menuChoice) => {
