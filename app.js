@@ -33,49 +33,47 @@ const queryUpdateRole = 'UPDATE roles SET ? WHERE ?;';
 const queryEmploysInfo = 'SELECT employees.id, employees.firstName, employees.lastName, roles.title, roles.salary, departments.department FROM employees LEFT JOIN roles ON employees.roleId = roles.id LEFT JOIN departments ON roles.deptId = departments.id;';
 const queryRolesInfo = 'SELECT roles.id, roles.title, roles.salary, departments.department FROM roles LEFT JOIN departments ON roles.deptId = departments.id;';
 
+
 async function menuFunct(){
-    const menuChoice = await inquirer.prompt(menu);
-    switch(menuChoice){
-        case 'View All Employees':
-            connection.query(queryEmploysInfo, (err, res) => {
-                if(err) throw err;
-                console.table(res);
-            });
-            menuFunct();
-            break;
-        case 'Add New Employee':
-            
-            break;
-        case 'Update Employee Role':
-            
-            break;
-        case 'Remove Employee':
-            
-            break;
-        case 'View All Roles':
-            connection.query(queryRolesInfo, (err, res) => {
-                if(err) throw err;
-                console.table(res);
-            });
-            menuFunct();
-            break;
-        case 'Add New Role':
-            
-            break;
-        case 'View All Departments':
-            
-            break;
-        case 'Add New Department':
-            
-            break;
-        case 'Finished':
-            connection.end();
-            break;
-    }
+    inquirer.prompt(menu).then((menuChoice) => {
+        switch(menuChoice.choice){
+            case 'View All Employees':
+                const getEmploys = connection.query(queryEmploysInfo, (err, res) => {
+                    if (err) throw err;
+                    console.table(res);
+                });
+                menuFunct();
+                break;
+            case 'Add New Employee':
+                
+                break;
+            case 'Update Employee Role':
+                
+                break;
+            case 'Remove Employee':
+                
+                break;
+            case 'View All Roles':
+                const getRoles = connection.query(queryRolesInfo, (err, res) => {
+                    if(err) throw err;
+                    console.table(res);
+                });
+                menuFunct();
+                break;
+            case 'Add New Role':
+                
+                break;
+            case 'View All Departments':
+                
+                break;
+            case 'Add New Department':
+                
+                break;
+            case 'Finished':
+                connection.end();
+                break;
+        }
+    });
 }
 
-function init(){
-    menuFunct();
-}
-
-init();
+menuFunct();

@@ -21,7 +21,7 @@ INSERT INTO employees(firstName, lastName, deptId, roleId, reportTo, isReport)
 VALUES
 ("Bose", "Mann", 1, 1, NULL, TRUE),
 ("Tope", "Lahdey", 1, 2, NULL, TRUE),
-("Leagle", "Eagle", 5, 8, 1, TRUE),
+("Leagle", "Eagle", 5, 7, 1, TRUE),
 ("William", "Manahge", 2, 3, 2, TRUE),
 ("Codey", "Wellers", 4, 6, 5, TRUE),
 ("Simon", "Says", 4, 5, 4, TRUE),
