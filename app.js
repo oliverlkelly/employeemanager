@@ -26,13 +26,22 @@ const queryAddDepart = 'INSERT INTO departments SET ?;';
 const queryAddRole = 'INSERT INTO roles SET ?;';
 const queryAddEmploy = 'INSERT INTO employees SET ?;';
 
+const queryUpdateEmploy = 'UPDATE employees SET ? WHERE ?;';
+const queryDeleteEmploy = 'DELETE FROM employees WHERE ?;';
+const queryUpdateRole = 'UPDATE roles SET ? WHERE ?;';
 
+const queryEmploysInfo = 'SELECT employees.id, employees.firstName, employees.lastName, roles.title, roles.salary, departments.department FROM employees LEFT JOIN roles ON employees.roleId = roles.id LEFT JOIN departments ON roles.deptId = departments.id;';
+const queryRolesInfo = 'SELECT roles.id, roles.title, roles.salary, departments.department FROM roles LEFT JOIN departments ON roles.deptId = departments.id;';
 
 async function menuFunct(){
     const menuChoice = await inquirer.prompt(menu);
     switch(menuChoice){
         case 'View All Employees':
-            
+            connection.query(queryEmploysInfo, (err, res) => {
+                if(err) throw err;
+                console.table(res);
+            });
+            menuFunct();
             break;
         case 'Add New Employee':
             
@@ -44,7 +53,11 @@ async function menuFunct(){
             
             break;
         case 'View All Roles':
-            
+            connection.query(queryRolesInfo, (err, res) => {
+                if(err) throw err;
+                console.table(res);
+            });
+            menuFunct();
             break;
         case 'Add New Role':
             
@@ -56,7 +69,7 @@ async function menuFunct(){
             
             break;
         case 'Finished':
-            done = true;
+            connection.end();
             break;
     }
 }
