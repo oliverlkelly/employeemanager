@@ -75,14 +75,18 @@ function newRole(){
     });
 }
 
+function getEmploys(){
+    connection.query(queryEmploy, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+    });
+}
+
 async function menuFunct(){
     inquirer.prompt(menu).then((menuChoice) => {
         switch(menuChoice.choice){
             case 'View All Employees':
-                const getEmploys = connection.query(queryEmploy, (err, res) => {
-                    if (err) throw err;
-                    console.table(res);
-                });
+                getEmploys(); 
                 menuFunct();
                 break;
             case 'Add New Employee':
