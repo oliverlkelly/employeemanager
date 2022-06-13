@@ -75,24 +75,25 @@ function newRole(){
     });
 }
 
+function getDeparts(){
+    connection.query(queryDepart, (err, res) => {
+        if(err) throw err;
+        console.table(res);
+    });
+}
+
 function newDepart(){
     prompt([
         { type: 'input', name: 'newDepartTitle', message: 'What is the name of this new Department?' },
     ])
     .then((answers) => {
-        connection.query(queryDepart, (err, res) => {
-            if (err) throw err;
-            const departments = res.find(departments => departments.deptartment === answers.newRoleDepart);
-            connection.query(queryAddRole,
-            {
-                title: answers.newRoleTitle,
-                salary: answers.newRoleSalary,
-                deptId: departments.id
-            }, (err, res) => {
-                if (err) throw err;
-                console.table(res); 
-                getRoles();
-            });
+        connection.query(queryDepart, 
+        {
+            department: answers.newDepartTitle
+        },
+        (err, res) => {
+            if(err) throw err;
+            console.table(res);
         });
     });
 }
@@ -125,13 +126,11 @@ async function menuFunct(){
                 menuFunct();               
                 break;
             case 'View All Departments':
-                const getDeptarts = connection.query(queryDepart, (err, res) => {
-                    if(err) throw err;
-                    console.table(res);
-                });
+                getDeparts();
                 menuFunct();
             case 'Add New Department':
-                
+                newDepart();
+                menuFunct();
                 break;
             case 'Finished':
                 connection.end();
