@@ -75,6 +75,28 @@ function newRole(){
     });
 }
 
+function newDepart(){
+    prompt([
+        { type: 'input', name: 'newDepartTitle', message: 'What is the name of this new Department?' },
+    ])
+    .then((answers) => {
+        connection.query(queryDepart, (err, res) => {
+            if (err) throw err;
+            const departments = res.find(departments => departments.deptartment === answers.newRoleDepart);
+            connection.query(queryAddRole,
+            {
+                title: answers.newRoleTitle,
+                salary: answers.newRoleSalary,
+                deptId: departments.id
+            }, (err, res) => {
+                if (err) throw err;
+                console.table(res); 
+                getRoles();
+            });
+        });
+    });
+}
+
 async function menuFunct(){
     inquirer.prompt(menu).then((menuChoice) => {
         switch(menuChoice.choice){
