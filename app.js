@@ -98,18 +98,70 @@ function newDepart(){
     });
 }
 
+function getEmploys(){
+    connection.query(queryEmploy, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+    });
+}
+
+function addEmploy(){
+    connection.query(queryRoles, (err, res) => {
+        let roleChoice = res.map(function (res) {
+            return res['title'];
+        });
+        let roles = res;
+        connection.query( queryAddEmployHelp, ( err, res ) => {
+            let managerChoice = res.map( function ( res ) {
+                return {
+                    name: res.first_name + ' ' + res.last_name+ ": " + res.title,
+                    value: res.role_id
+                };
+            } );
+            prompt([
+                { type: 'input', name: 'newEmployFirst', message: '\n New employee`s first name?' },
+                { type: 'input', name: 'newEmployLast', message: 'New employee`s last name?' },
+                {
+                    type: 'list',
+                    name: 'newEmployRole',
+                    message: 'New employee`s role?',
+                    choices: roleChoice
+                },
+                {
+                    type: 'list',
+                    name: 'newEmployManager',
+                    message: 'New employee`s manager?',
+                    choices: managerChoice
+                }
+            ])
+            .then( ( answers ) => {
+                let employRole = roles.find(role => role.title === answers.newEmpRole);
+                connection.query(queryAddEmploy, {
+                    id: employRole.id,
+                    firstName: answers.newEmployFirst,
+                    lastName: answers.newEmployLast,
+                    reportTo: answers.newEmployManager,
+                    role_id: employRole.id
+                }, (err, res) => {
+                    if (err) throw err;
+                });
+
+            });
+        });
+    });
+}
+
 async function menuFunct(){
     inquirer.prompt(menu).then((menuChoice) => {
         switch(menuChoice.choice){
             case 'View All Employees':
-                const getEmploys = connection.query(queryEmploy, (err, res) => {
-                    if (err) throw err;
-                    console.table(res);
-                });
+                getEmploys();
                 menuFunct();
                 break;
             case 'Add New Employee':
-                
+                addEmploy();
+                getEmploys();
+                menuFunct();
                 break;
             case 'Update Employee Role':
                 
