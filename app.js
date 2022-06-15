@@ -1,4 +1,5 @@
 const inquirer = require('inquirer');
+const { prompt } = require('inquirer');
 const connection = require('./util/connection');
 
 const menu = {
@@ -32,7 +33,7 @@ const queryUpdateRole = 'UPDATE roles SET ? WHERE ?;';
 
 const queryEmploysInfo = 'SELECT employees.id, employees.firstName, employees.lastName, roles.title, roles.salary, departments.department FROM employees LEFT JOIN roles ON employees.roleId = roles.id LEFT JOIN departments ON roles.deptId = departments.id;';
 const queryRolesInfo = 'SELECT roles.id, roles.title, roles.salary, departments.department FROM roles LEFT JOIN departments ON roles.deptId = departments.id;';
-const queryAddEmployHelp = `SELECT employees.first_name, employees.last_name, employees.role_id, roles.title FROM employees INNER JOIN roles ON employees.role_id = roles.id WHERE employees.is_mangr=TRUE;`;
+const queryAddEmployHelp = 'SELECT employees.firstName, employees.lastName, employees.roleId, roles.title FROM employees INNER JOIN roles ON employees.roleId = roles.id WHERE employees.isReport=TRUE;';
 
 function getRoles(){
     connection.query(queryRoles, (err, res) => {
@@ -111,8 +112,8 @@ function addEmploy(){
             return res['title'];
         });
         let roles = res;
-        connection.query( queryAddEmployHelp, ( err, res ) => {
-            let managerChoice = res.map( function ( res ) {
+        connection.query(queryAddEmployHelp, ( err, res ) => {
+            let managerChoice = res.map(function (res) {
                 return {
                     name: res.first_name + ' ' + res.last_name+ ": " + res.title,
                     value: res.role_id
